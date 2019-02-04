@@ -1,31 +1,78 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <v-app>
+    <div class="body">
+      <div class="fixed">
+          <v-switch :label="`Space Mode`" v-model="darkmode" v-on:change="changeDarkmode()" dark></v-switch>
+        <shared_Header />
+        <shared_NavBar />
+      </div>
+      <router-view />
     </div>
-    <router-view/>
-  </div>
+  </v-app>
 </template>
+<script>
+import shared_NavBar from '@/components/shared/shared_NavBar.vue';
+import shared_Header from '@/components/shared/shared_Header.vue';
+
+export default {
+  name: 'App',
+  components: {
+    shared_NavBar,
+    shared_Header,
+  },
+  computed: {
+    darkModeCompute() {
+      return !this.$store.state.darkMode
+    }
+  },
+  watch: {
+    darkModeCompute(newCompute, oldCompute) {
+      if (newCompute == true) {
+        document.documentElement.style.setProperty('--bgcolor', '#303030')
+        document.documentElement.style.setProperty('--fontcolor', '#e0e0e0')
+      } else {
+        document.documentElement.style.setProperty('--bgcolor', '#e0e0e0')
+        document.documentElement.style.setProperty('--fontcolor', '#303030')
+      }
+    }
+  },
+  methods: {
+    retrieveStoreData() {
+      this.darkMode = this.$store.state.darkMode
+    },
+    changeDarkmode() {
+      this.$store.dispatch('changeDarkmode')
+    }
+  },
+  data() {
+    return {
+      darkMode : undefined
+    }
+  },
+  created() {
+    this.$store.dispatch('getLaunches')
+    this.$store.dispatch('getRockets')
+    this.retrieveStoreData()
+  },
+}
+</script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+:root {
+  --bgcolor: #e0e0e0;
+  --fontcolor: #303030;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+
+.body{
+  background-color: var(--bgcolor);
+  color: var(--fontcolor);
+  width: 100%;
+  height: 100%;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.componentContainer{
+  margin: 50px
 }
 </style>
+
