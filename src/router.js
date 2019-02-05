@@ -4,7 +4,9 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-export default new Router({
+export default 
+
+new Router({
   base: process.env.BASE_URL,
   routes: [{
       path: '/',
@@ -22,9 +24,9 @@ export default new Router({
       component: () => import('./views/Launches.vue')
     },
     {
-      path: '/preferences',
-      name: 'preferences',
-      component: () => import('./views/Preferences.vue')
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login.vue')
     },
   ]
 });

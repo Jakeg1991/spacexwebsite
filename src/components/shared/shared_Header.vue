@@ -31,10 +31,8 @@ export default {
     watch: {
         darkModeCompute(newCompute, oldCompute) {
             if (newCompute == true) {
-                console.log(this.header)
                 this.header = this.darkHeader
             } else {
-                console.log(this.header)
                 this.header = this.lightHeader
             }
         }
@@ -49,6 +47,10 @@ export default {
     height: 400px;
     background-position: center;
     background-size: cover;
+      -webkit-transition: background-image 200ms ease-in-out;
+  -moz-transition: background-image 200ms ease-in-out;
+  -o-transition: background-image 200ms ease-in-out;
+  transition: background-image 200ms ease-in-out;
     /* background-image: url("../../assets/headerBG_dark.jpg"); */
     text-align: center;
     vertical-align: middle;

@@ -9,8 +9,8 @@
         <router-link to="/rockets">
             Rockets |
         </router-link>
-        <router-link to="/preferences">
-            Preferences
+                <router-link to="/login">
+            login
         </router-link>
     </div>
 </template>

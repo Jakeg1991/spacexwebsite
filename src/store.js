@@ -10,8 +10,20 @@ export default new Vuex.Store({
     rockets: "DATA NOT FETCHED",
     darkMode: true,
     loggedIn: false,
+    userInfo: []
   },
   mutations: {
+    setUserInfo(state, payload) {
+      state.userInfo = payload;
+      console.log(payload)
+    },
+
+    setLogin(state) {
+      state.loggedIn = true
+    },
+    setLogout(state) {
+      state.loggedIn = false
+    },
     setDarkmode(state) {
       if (state.darkMode == true) {
         state.darkMode = false
@@ -25,34 +37,51 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    changeDarkmode({
-      state,
-      commit
-    }, plan) {
-      commit('setDarkmode')
-    },
+      setUserInfo({
+        commit
+      }, payload) {
+        commit('setUserInfo', payload)
+      },
 
-    async getLaunches({
-      state,
-      commit
-    }, plan) {
 
-      try {
-        let response = await axios.get(`https://api.spacexdata.com/v3/launches`, {});
-        commit('setLaunches', response.data);
-      } catch (error) {
-        commit('setLaunches', []);
-      }
-    },
+      logout({
+        commit
+      }, plan) {
+        commit('setLogout')
+      },
 
-    async getRockets({
-      state,
-      commit
-    }, plan) {
-      try {
-        let response = await axios.get(`https://api.spacexdata.com/v3/rockets`, {});
-        commit('setRockets', response.data);
-      } catch (error) {
+      login({
+        commit
+      }, plan) {
+        commit('setLogin')
+      },
+
+      changeDarkmode({
+        commit
+      }, plan) {
+        commit('setDarkmode')
+      },
+
+      async getLaunches({
+        commit
+      }, plan) {
+
+        try {
+          let response = await axios.get(`https://api.spacexdata.com/v3/launches`, {});
+          commit('setLaunches', response.data);
+        } catch (error) {
+          commit('setLaunches', []);
+        }
+      },
+
+      async getRockets({
+          state,
+          commit
+        }, plan) {
+          try {
+            let response = await axios.get(`https://api.spacexdata.com/v3/rockets`, {});
+            commit('setRockets', response.data);
+          } catch (error) {
         commit('setRockets', []);
       }
     }

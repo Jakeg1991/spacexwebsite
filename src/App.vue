@@ -1,77 +1,120 @@
 <template>
   <v-app>
     <div class="body">
+      <p>darkmode: {{!this.$store.state.darkMode}}</p>
+      <p>loggedin: {{this.$store.state.loggedIn}}</p>
       <div class="fixed">
-          <v-switch :label="`Space Mode`" v-model="darkmode" v-on:change="changeDarkmode()" dark></v-switch>
-        <shared_Header />
-        <shared_NavBar />
       </div>
-      <router-view />
+      <router-view @loginRunFunc="login()" @logoutRunFunc="logout()"/>
     </div>
   </v-app>
 </template>
 <script>
-import shared_NavBar from '@/components/shared/shared_NavBar.vue';
-import shared_Header from '@/components/shared/shared_Header.vue';
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+
+var config = {
+  apiKey: "AIzaSyAeDJ0KU9ELqJv5Fe6FCeh4K0vRn0IZ1qs",
+  authDomain: "spacexapplogin.firebaseapp.com",
+  databaseURL: "https://spacexapplogin.firebaseio.com",
+  projectId: "spacexapplogin",
+  storageBucket: "spacexapplogin.appspot.com",
+  messagingSenderId: "167057019693"
+};
+firebase.initializeApp(config);
 
 export default {
   name: 'App',
-  components: {
-    shared_NavBar,
-    shared_Header,
-  },
-  computed: {
-    darkModeCompute() {
-      return !this.$store.state.darkMode
-    }
-  },
-  watch: {
-    darkModeCompute(newCompute, oldCompute) {
-      if (newCompute == true) {
-        document.documentElement.style.setProperty('--bgcolor', '#303030')
-        document.documentElement.style.setProperty('--fontcolor', '#e0e0e0')
-      } else {
-        document.documentElement.style.setProperty('--bgcolor', '#e0e0e0')
-        document.documentElement.style.setProperty('--fontcolor', '#303030')
-      }
-    }
-  },
-  methods: {
-    retrieveStoreData() {
-      this.darkMode = this.$store.state.darkMode
+    data() {
+      return {}
     },
-    changeDarkmode() {
-      this.$store.dispatch('changeDarkmode')
-    }
-  },
-  data() {
-    return {
-      darkMode : undefined
-    }
-  },
-  created() {
-    this.$store.dispatch('getLaunches')
-    this.$store.dispatch('getRockets')
-    this.retrieveStoreData()
-  },
-}
+    computed: {
+      loggedInCompute() {
+        return !this.$store.state.loggedIn
+      },
+
+      darkModeCompute() {
+        return !this.$store.state.darkMode
+      }
+    },
+    watch: {
+      loggedInCompute(newCompute, oldCompute) {
+        if (newCompute == true) {
+          this.loggedIn = true
+        } else {
+          this.loggedIn = false
+        }
+      },
+      darkModeCompute(newCompute, oldCompute) {
+        if (newCompute == true) {
+          document.documentElement.style.setProperty('--bgcolor', '#303030')
+          document.documentElement.style.setProperty('--fontcolor', '#e0e0e0')
+        } else {
+          document.documentElement.style.setProperty('--bgcolor', '#e0e0e0')
+          document.documentElement.style.setProperty('--fontcolor', '#303030')
+        }
+      },
+    },
+    methods: {
+      login() {
+        console.log("in login");
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then(result => {
+            // var token = result.credential.accessToken;
+            // var user = result.user;
+            // this.user = user;
+            console.log("Sign-in successful");
+            this.$store.dispatch('setUserInfo', result.user)
+            this.$store.dispatch('login')
+            this.$router.push('/')
+          })
+          .catch(function (error) {
+            alert("error" + error.message);
+          });
+      },
+      logout() {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            console.log("Sign-out successful");
+            this.$store.dispatch('logout');
+            this.$router.push('/login')
+          })
+          .catch(function (error) {
+            alert("alert logout");
+          });
+      }
+    },
+    created() {
+      this.$store.dispatch('getLaunches')
+      this.$store.dispatch('getRockets')
+    },
+  }
 </script>
 
-<style>
-:root {
+<style>:root {
   --bgcolor: #e0e0e0;
   --fontcolor: #303030;
 }
 
 
-.body{
+.body {
   background-color: var(--bgcolor);
+  -webkit-transition: background-image 200ms ease-in-out;
+  -moz-transition: background-image 200ms ease-in-out;
+  -o-transition: background-image 200ms ease-in-out;
+  transition: background-image 200ms ease-in-out;
   color: var(--fontcolor);
   width: 100%;
   height: 100%;
 }
 
-.componentContainer{
+.componentContainer {
   margin: 50px
 }
 </style>
