@@ -27,38 +27,44 @@ import rockets_generalInfo from '@/components/rockets/rockets_generalInfo.vue';
 
 export default {
   name: 'rockets',
-    data() {
-      return {
-        chosenRocketData: undefined,
+  data() {
+    return {
+      chosenRocketData: undefined,
+    }
+  },
+  components: {
+    rockets_technicalDetails,
+    rockets_rocketSelector,
+    rockets_rocketGraphic,
+    rockets_generalInfo,
+    shared_NavBar,
+    shared_UserInfo,
+    shared_Header
+  },
+  methods: {
+    redirectPage() {
+      if (this.$store.state.loggedIn == false) {
+        this.$emit('redirectFunc')
       }
     },
-    components: {
-      rockets_technicalDetails,
-      rockets_rocketSelector,
-      rockets_rocketGraphic,
-      rockets_generalInfo,
-      shared_NavBar,
-      shared_UserInfo,
-      shared_Header
+    runLogout() {
+      this.$emit('logoutRunFunc')
     },
-    methods: {
-      runLogout() {
-        this.$emit('logoutRunFunc')
-      },
 
-      retrieveStoreData() {
-        this.rocketsData = this.$store.state.rockets
-      },
-      filterRockets(rocket) {
-        this.chosenRocketData = this.$store.state.rockets.filter(oneRocket => oneRocket.rocket_name == rocket)
-      },
-
+    retrieveStoreData() {
+      this.rocketsData = this.$store.state.rockets
     },
-    created() {
-      this.retrieveStoreData()
+    filterRockets(rocket) {
+      this.chosenRocketData = this.$store.state.rockets.filter(oneRocket => oneRocket.rocket_name == rocket)
     },
+  },
+  created() {
+    this.retrieveStoreData()
+  },
+  mounted() {
+    this.redirectPage()
   }
-
+}
 </script>
 
 <style scoped>

@@ -22,9 +22,12 @@ export default {
       shared_Header
     },
     methods: {
-              runLogout(){
-this.$emit('logoutRunFunc')
-        },
+      runLogout() {
+        this.$emit('logoutRunFunc')
+      },
+    },
+    mounted(){
+      if(this.$store.state.loggedIn == false){this.$emit('redirectFunc')}
     }
   }
 </script>

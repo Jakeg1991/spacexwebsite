@@ -8,9 +8,9 @@ export default new Vuex.Store({
   state: {
     launches: "DATA NOT FETCHED",
     rockets: "DATA NOT FETCHED",
-    darkMode: true,
+    darkMode: false,
     loggedIn: false,
-    userInfo: []
+    userInfo: "DATA NOT FETCHED"
   },
   mutations: {
     setUserInfo(state, payload) {
@@ -27,8 +27,12 @@ export default new Vuex.Store({
     setDarkmode(state) {
       if (state.darkMode == true) {
         state.darkMode = false
-      } else(state.darkMode = true)
-    },
+        console.log("lightson")
+        console.log(state.darkMode)
+      } else{state.darkMode = true
+        console.log("lightsoff")}
+        console.log(state.darkMode)},
+    
     setLaunches(state, payload) {
       state.launches = payload;
     },

@@ -1,11 +1,9 @@
 <template>
   <v-app>
     <div class="body">
-      <p>darkmode: {{!this.$store.state.darkMode}}</p>
-      <p>loggedin: {{this.$store.state.loggedIn}}</p>
       <div class="fixed">
       </div>
-      <router-view @loginRunFunc="login()" @logoutRunFunc="logout()"/>
+      <router-view @loginRunFunc="login()" @logoutRunFunc="logout()" @redirectFunc="redirect()"/>
     </div>
   </v-app>
 </template>
@@ -26,89 +24,109 @@ firebase.initializeApp(config);
 
 export default {
   name: 'App',
-    data() {
-      return {}
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
+  computed: {
+    loggedInCompute() {
+      return !this.$store.state.loggedIn
     },
-    computed: {
-      loggedInCompute() {
-        return !this.$store.state.loggedIn
-      },
 
-      darkModeCompute() {
-        return !this.$store.state.darkMode
+    darkModeCompute() {
+      return !this.$store.state.darkMode
+    }
+  },
+  watch: {
+    loggedInCompute(newCompute) {
+      if (newCompute == true) {
+        this.loggedIn = true
+      } else {
+        this.loggedIn = false
       }
     },
-    watch: {
-      loggedInCompute(newCompute, oldCompute) {
-        if (newCompute == true) {
-          this.loggedIn = true
-        } else {
-          this.loggedIn = false
-        }
-      },
-      darkModeCompute(newCompute, oldCompute) {
-        if (newCompute == true) {
-          document.documentElement.style.setProperty('--bgcolor', '#303030')
-          document.documentElement.style.setProperty('--fontcolor', '#e0e0e0')
-        } else {
-          document.documentElement.style.setProperty('--bgcolor', '#e0e0e0')
-          document.documentElement.style.setProperty('--fontcolor', '#303030')
-        }
-      },
-    },
-    methods: {
-      login() {
-        console.log("in login");
-        var provider = new firebase.auth.GoogleAuthProvider();
-        firebase
-          .auth()
-          .signInWithPopup(provider)
-          .then(result => {
-            // var token = result.credential.accessToken;
-            // var user = result.user;
-            // this.user = user;
-            console.log("Sign-in successful");
-            this.$store.dispatch('setUserInfo', result.user)
-            this.$store.dispatch('login')
-            this.$router.push('/')
-          })
-          .catch(function (error) {
-            alert("error" + error.message);
-          });
-      },
-      logout() {
-        firebase
-          .auth()
-          .signOut()
-          .then(() => {
-            console.log("Sign-out successful");
-            this.$store.dispatch('logout');
-            this.$router.push('/login')
-          })
-          .catch(function (error) {
-            alert("alert logout");
-          });
+    darkModeCompute(newCompute) {
+      if (newCompute == true) {
+        this.darkMode(true)
+      } else {
+        this.darkMode(false)
       }
     },
-    created() {
-      this.$store.dispatch('getLaunches')
-      this.$store.dispatch('getRockets')
+  },
+  methods: {
+    darkModeInit() {
+      if (this.$store.state.darkMode == true) {
+        this.darkMode(true)
+      } else {
+        this.darkMode(false)
+      }
     },
-  }
+    login() {
+      console.log("in login");
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          console.log("Sign-in successful");
+          this.$store.dispatch('setUserInfo', result.user)
+          this.$store.dispatch('login')
+          this.$router.push('/')
+        })
+        .catch(function (error) {
+          alert("error" + error.message);
+        });
+    },
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log("Sign-out successful");
+          this.$store.dispatch('logout');
+          this.$router.push('/login')
+        })
+        .catch(function (error) {
+          alert("alert logout");
+        });
+    },
+    redirect() {
+      // this.$router.push('/login')
+    },
+    darkMode(boonlean) {
+      if (boonlean == false) {
+        document.documentElement.style.setProperty('--bgcolor', '#e0e0e0')
+        document.documentElement.style.setProperty('--fontcolor', '#303030')
+        document.documentElement.style.setProperty('--utlitybarcolor', '#b4b4b4')
+      } else {
+        document.documentElement.style.setProperty('--bgcolor', '#303030')
+        document.documentElement.style.setProperty('--fontcolor', '#e0e0e0')
+        document.documentElement.style.setProperty('--utlitybarcolor', '#4e4e4e')
+      }
+    }
+  },
+  mounted() {
+    this.darkModeInit()
+    this.$store.dispatch('getLaunches')
+    this.$store.dispatch('getRockets')
+  },
+}
 </script>
 
 <style>:root {
   --bgcolor: #e0e0e0;
   --fontcolor: #303030;
+  --utlitybarcolor:  #b4b4b4;
 }
 
 
 .body {
   background-color: var(--bgcolor);
-  -webkit-transition: background-image 200ms ease-in-out;
-  -moz-transition: background-image 200ms ease-in-out;
-  -o-transition: background-image 200ms ease-in-out;
-  transition: background-image 200ms ease-in-out;
+  -webkit-transition: background-image 3000ms ease-in-out;
+  -moz-transition: background-image 3000ms ease-in-out;
+  -o-transition: background-image 3000ms ease-in-out;
+  transition: background-image 3000ms ease-in-out;
   color: var(--fontcolor);
   width: 100%;
   height: 100%;

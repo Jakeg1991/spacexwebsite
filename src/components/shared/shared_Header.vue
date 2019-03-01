@@ -20,11 +20,11 @@ export default {
     },
     data() {
         return {
-            header: 'https://img.purch.com/h/1400/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA4Mi82NjAvb3JpZ2luYWwvc3BhY2V4LWZhbGNvbi1oZWF2eS1sYXVuY2gtZGVidXQuanBn',
-            lightHeader: 'https://img.purch.com/h/1400/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA4Mi82NjAvb3JpZ2luYWwvc3BhY2V4LWZhbGNvbi1oZWF2eS1sYXVuY2gtZGVidXQuanBn',
-            darkHeader:
-            'http://www.williamloughran.co.uk/media/4868/telsa-roadster-in-deep-space-2.jpg'
-                //   '../../assets/headerBG_light.jpg'
+            // header: 'https://img.purch.com/h/1400/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA4Mi82NjAvb3JpZ2luYWwvc3BhY2V4LWZhbGNvbi1oZWF2eS1sYXVuY2gtZGVidXQuanBn',
+            // lightHeader: 'https://img.purch.com/h/1400/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA4Mi82NjAvb3JpZ2luYWwvc3BhY2V4LWZhbGNvbi1oZWF2eS1sYXVuY2gtZGVidXQuanBn',
+            // darkHeader:
+            // 'http://www.williamloughran.co.uk/media/4868/telsa-roadster-in-deep-space-2.jpg'
+            //     //   '../../assets/headerBG_light.jpg'
         }
     },
 
@@ -42,15 +42,15 @@ export default {
 </script>
 
 <style scoped>
-.header{
+.header {
     width: 100%;
     height: 400px;
     background-position: center;
     background-size: cover;
-      -webkit-transition: background-image 200ms ease-in-out;
-  -moz-transition: background-image 200ms ease-in-out;
-  -o-transition: background-image 200ms ease-in-out;
-  transition: background-image 200ms ease-in-out;
+    -webkit-transition: background-image 200ms ease-in-out;
+    -moz-transition: background-image 200ms ease-in-out;
+    -o-transition: background-image 200ms ease-in-out;
+    transition: background-image 200ms ease-in-out;
     /* background-image: url("../../assets/headerBG_dark.jpg"); */
     text-align: center;
     vertical-align: middle;

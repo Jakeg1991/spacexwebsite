@@ -1,7 +1,7 @@
 <template>
-<div class="componentContainer">
-    <H2>ROCKET GRAPHIC</H2>
-    <div class="rocketGraphic" :style="getRocketGraphic"></div>
+    <div class="componentContainer">
+        <H2>ROCKET GRAPHIC</H2>
+        <div class="rocketGraphic" :style="getRocketGraphic"></div>
     </div>
 </template>
 
